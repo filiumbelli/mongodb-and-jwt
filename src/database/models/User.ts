@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
-interface IUser{
+import { generateToken } from "helper/jwt";
+export interface IUser{
     firstName: string,
     username: string,
     email: string,
@@ -10,7 +11,6 @@ interface IUser{
     createdAt?: Date,
     isVerified? : boolean
 }
-
 
 const UserSchema = new Schema<IUser>({
     firstName: {type: String, required: true},

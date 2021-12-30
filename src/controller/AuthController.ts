@@ -1,6 +1,7 @@
 import User from "database/models/User";
 import { Request, Response } from "express";
 import { body, sanitizeBody, validationResult } from "express-validator";
+import { errorResponse, successResponseWithData, validationErrorWithData } from "helper/apiResponse";
 import logger from "winston";
 export const register = [
     body("firstName").isLength({min: 2})
@@ -40,7 +41,7 @@ export const register = [
         try{
             const errors = validationResult(req);
             if(!errors.isEmpty()) {
-                return apiResponse.validationErrorWithData(res,"Validation Error", errors.array());
+                return validationErrorWithData(res,"Validation Error", errors.array());
             }else {
                 var user = new User({
                     firstName: req.body.firstName,
@@ -48,11 +49,11 @@ export const register = [
                     email: req.body.email,
                     birthday: req.body.birthday,
                 });
-                return apiResponse.successResponseWithData(res, "Registration is successfull!", user);
+                return successResponseWithData(res, "Registration is successfull!", user);
             }
         }catch(error: any | unknown | Error) {
             logger.error(error.message());
-            return apiResponse.ErrorResponse(res,err);
+            return errorResponse(res,error);
         }
     }
 ];
