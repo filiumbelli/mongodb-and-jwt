@@ -20,4 +20,6 @@ app.listen(process.env.APP_PORT, () => {
      username: "test"
  });
 
- verifyToken(token);
+const {type, session} =  verifyToken(token);
+console.log(type);
+console.log(session?.issued);

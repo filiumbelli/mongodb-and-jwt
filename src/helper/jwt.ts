@@ -51,9 +51,9 @@ export const generateToken = (partialSession: PartialSession): string => {
 
 export const verifyToken = (token: string) => {
 
-    let result : JwtPayload | string;  
+    let result :  Session
     try{
-        result = jwt.verify(token,process.env.SECRET_KEY_JWT!);
+        result = JSON.parse(String(jwt.verify(token,process.env.SECRET_KEY_JWT!)));
     }catch(error:  any | Error) {
         if (error.message === "No token supplied" || error.message === "Not enough or too many segments") {
             return {
@@ -76,7 +76,6 @@ export const verifyToken = (token: string) => {
 
         throw e;
     }
-    console.log(result);
     return {
         type: "valid",
         session: result
